@@ -1,0 +1,592 @@
+<title>Jigmet &amp; Rigzen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Wedding invitation of Jigmet Angmo &amp; Rigzen Norbu · 5 November 2026 · Chumkhar House, Nimoo, Ladakh">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Pinyon+Script&display=swap">
+<style>
+/* Layout: one full-screen scene; looping background video behind a floating envelope → letter on a scrollable overlay. Deliberately single dark theme (a candle-lit burgundy & gold world). */
+:root {
+  --night: #12070a;
+  --wine: #5F171D;
+  --wine-deep: #2a0b10;
+  --gold: #d9b877;
+  --gold-dim: #a8874c;
+  --ivory: #f6efe3;
+  --blush: #e8b4b8;
+  --taupe: #997A66;      /* details panel */
+  --cocoa: #7A5A45;      /* countdown tiles */
+  --sand: #D6C49C;       /* buttons */
+  --cream: #fbf3e8;
+  --veil: rgba(18, 7, 10, 0.62);
+  --font-script: "Pinyon Script", "Snell Roundhand", "Apple Chancery", cursive;
+  --font-serif: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+  --W: min(84vw, 460px, 60svh);
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--night);
+  color: var(--ivory);
+  font-family: var(--font-serif);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+body::before {
+  /* blurred backdrop, visible on wide screens around the portrait video */
+  content: "";
+  position: fixed; inset: -40px;
+  background: var(--poster-url) center / cover no-repeat;
+  filter: blur(36px) brightness(0.45) saturate(1.1);
+  z-index: 0;
+}
+
+/* ---------- video ---------- */
+#bg {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 58%;
+  z-index: 1;
+  transition: filter 3s ease;
+}
+body.dim #bg { filter: brightness(0.72) saturate(0.95); }
+.veil {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% 45%, transparent 30%, var(--veil) 100%),
+    linear-gradient(180deg, rgba(18,7,10,.25), transparent 30%, transparent 60%, rgba(18,7,10,.75));
+  opacity: .55;
+  transition: opacity 3s ease;
+}
+body.dim .veil { opacity: 1; }
+#fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+
+.seal:focus-visible, .action:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+/* ---------- envelope stage ---------- */
+#stage {
+  position: fixed; inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(14px, 3svh, 28px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px;
+  visibility: hidden;
+}
+.heading { text-align: center; display: grid; gap: .35rem; }
+.guest {
+  font-family: var(--font-script);
+  font-size: clamp(1.7rem, 6.4vw, 2.3rem);
+  color: var(--blush);
+  line-height: 1.1;
+}
+.eyebrow {
+  font-size: .82rem; letter-spacing: .38em; text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 1px 3px rgba(0,0,0,.9), 0 0 18px rgba(0,0,0,.7);
+}
+.heading .names {
+  font-family: var(--font-script);
+  font-size: clamp(2.5rem, 10vw, 3.9rem);
+  line-height: 1.05;
+  color: #f3dca4;
+  padding: 0 .2em;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.85)) drop-shadow(0 0 16px rgba(0,0,0,.6));
+}
+@keyframes foil { to { background-position: -250% 0; } }
+
+.env-wrap { position: relative; width: var(--W); margin-top: calc(var(--W) * 0.08); }
+.env-shadow { display: none;
+  position: absolute; left: 6%; right: 6%; bottom: -7%; height: 14%;
+  background: radial-gradient(closest-side, rgba(0,0,0,.6), transparent);
+  filter: blur(6px);
+}
+.env-float { position: relative; }
+.env {
+  position: relative; width: 100%;
+  aspect-ratio: 703 / 441; max-width: 100%;
+  perspective: 1400px;
+}
+.env > .layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; max-width: none; user-select: none; -webkit-user-drag: none; }
+.env-back { z-index: 1; }
+.pocket {
+  position: absolute; left: 0; right: 0; bottom: 0; top: -260%;
+  overflow: hidden; z-index: 2; pointer-events: none;
+}
+.letter-in {
+  position: absolute; left: 6%; width: 88%; height: auto; max-width: none;
+  top: 72.2222%; margin-top: 3.5%;
+  filter: drop-shadow(0 -2px 6px rgba(0,0,0,.25));
+}
+.env-front { z-index: 3; filter: drop-shadow(0 -3px 5px rgba(0,0,0,.28)); }
+.flap {
+  position: absolute; left: 0; top: 0; width: 100%; height: 77.55%;
+  z-index: 4;
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+}
+.flap .face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.flap .face img { width: 100%; height: 100%; display: block; max-width: none; }
+.flap .front img { transform: scaleY(-1); filter: brightness(1.22) saturate(1.05) drop-shadow(0 -6px 6px rgba(0,0,0,.4)); }
+.flap .back { transform: rotateX(180deg); }
+
+.seal {
+  position: absolute; z-index: 6;
+  left: 50%; top: 77.55%;
+  width: 27%; aspect-ratio: 1; max-width: 100%;
+  translate: -50% -50%;
+  border: 0; padding: 0; background: none; border-radius: 50%;
+  cursor: pointer;
+}
+.seal img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 6px 10px rgba(0,0,0,.5)); transition: transform .4s cubic-bezier(.3,1.6,.5,1); }
+.seal:hover img { transform: scale(1.06) rotate(-4deg); }
+.seal::before, .seal::after {
+  content: ""; position: absolute; inset: -8%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(246,239,227,.75);
+  animation: ripple 2.4s cubic-bezier(.2,.6,.3,1) infinite;
+  pointer-events: none;
+}
+.seal::after { animation-delay: 1.2s; }
+@keyframes ripple { 0% { transform: scale(.85); opacity: .9; } 100% { transform: scale(1.7); opacity: 0; } }
+.seal.broken::before, .seal.broken::after { display: none; }
+.hint {
+  font-style: italic; font-size: 1.15rem; letter-spacing: .04em;
+  color: var(--ivory); opacity: .85;
+  display: flex; align-items: center; gap: .6rem;
+}
+.hint::before, .hint::after { content: ""; width: 28px; height: 1px; background: var(--gold-dim); }
+
+/* ---------- flying letter ---------- */
+.letter-fly { position: fixed; z-index: 8; height: auto; max-width: none; pointer-events: none; filter: drop-shadow(0 18px 30px rgba(0,0,0,.5)); will-change: transform, left, top, width; }
+
+/* ---------- revealed card ---------- */
+#card {
+  position: fixed; inset: 0; z-index: 7;
+  overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  visibility: hidden;
+}
+.card-inner {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 72px;
+}
+.letter-slot {
+  position: relative;
+  width: min(92vw, 560px, calc((100svh - 48px) * 0.726));
+  perspective: 1200px;
+}
+.letter-tilt { position: relative; transform-style: preserve-3d; transition: transform .5s ease-out; }
+.letter-big { width: 100%; height: auto; display: block; visibility: hidden; filter: drop-shadow(0 18px 34px rgba(0,0,0,.55)); }
+.sheen {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, rgba(255,246,220,.55) 48%, rgba(255,255,255,.0) 60%);
+  background-size: 300% 100%; background-position: 150% 0;
+  -webkit-mask: var(--letter-url) center / 100% 100% no-repeat;
+          mask: var(--letter-url) center / 100% 100% no-repeat;
+  mix-blend-mode: soft-light;
+  opacity: 0;
+}
+.scroll-cue {
+  display: grid; justify-items: center; gap: 6px;
+  font-size: .75rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold);
+  opacity: 0;
+}
+.scroll-cue span { width: 1px; height: 34px; background: linear-gradient(var(--gold), transparent); animation: drip 1.8s ease-in-out infinite; transform-origin: top; }
+@keyframes drip { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+.details {
+  width: min(100%, 560px);
+  display: grid; gap: 28px; justify-items: center; text-align: center;
+  padding: 36px clamp(18px, 5vw, 40px) 32px;
+  background: var(--taupe);
+  border: 1px solid rgba(251,243,232,.4);
+  border-radius: 200px 200px 10px 10px;  /* echoes the arched invitation */
+  box-shadow: 0 24px 60px rgba(0,0,0,.45), inset 0 0 0 7px var(--taupe), inset 0 0 0 8px rgba(251,243,232,.45);
+  opacity: 0;
+}
+.details .names {
+  font-family: var(--font-script);
+  font-size: clamp(2.4rem, 9vw, 3.4rem); line-height: 1.1; color: var(--cream);
+  padding-top: 18px;
+}
+.details .sub { font-size: .8rem; letter-spacing: .38em; text-transform: uppercase; color: var(--cream); opacity: .9; }
+.when { display: grid; gap: 4px; }
+.when .day { font-size: 1.05rem; letter-spacing: .3em; text-transform: uppercase; color: var(--cream); opacity: .9; }
+.when .big { font-size: clamp(2rem, 8vw, 2.6rem); font-weight: 500; color: var(--cream); line-height: 1.1; }
+.when .time { font-style: italic; font-size: 1.2rem; color: var(--cream); }
+.rule { width: 60%; height: 1px; background: linear-gradient(90deg, transparent, rgba(251,243,232,.6), transparent); border: 0; margin: 0; }
+
+.countdown { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; width: 100%; max-width: 400px; }
+.countdown .cell { display: grid; gap: 2px; padding: 12px 4px 10px; border: 1px solid rgba(251,243,232,.22); border-radius: 6px; background: var(--cocoa); box-shadow: 0 4px 12px rgba(40,24,16,.25); }
+.countdown .num { font-size: clamp(1.7rem, 7vw, 2.2rem); font-weight: 500; font-variant-numeric: tabular-nums; color: var(--cream); line-height: 1; }
+.countdown .lbl { font-size: .68rem; letter-spacing: .24em; text-transform: uppercase; color: #e6cfae; }
+.countdown-note { font-style: italic; font-size: 1.1rem; color: var(--cream); }
+
+.venue { display: grid; gap: 4px; }
+.venue .lbl { font-size: .74rem; letter-spacing: .34em; text-transform: uppercase; color: var(--cream); opacity: .85; }
+.venue .place { font-size: 1.35rem; color: var(--cream); }
+
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.action {
+  display: inline-flex; align-items: center; gap: .55em;
+  font: 500 .82rem/1 var(--font-serif); letter-spacing: .2em; text-transform: uppercase;
+  color: #3a2a1f; background: var(--sand);
+  border: 0; border-radius: 999px; padding: 1em 1.5em;
+  text-decoration: none; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.action:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.45); }
+.action.ghost { background: transparent; color: var(--cream); border: 1px solid rgba(251,243,232,.6); box-shadow: none; }
+.action svg { width: 1.1em; height: 1.1em; flex: none; }
+.closing { font-style: italic; font-size: 1.15rem; color: var(--cream); max-width: 32ch; text-wrap: balance; }
+
+@media (prefers-reduced-motion: reduce) {
+  .heading .names { animation: none; }
+  .seal::before, .seal::after, .scroll-cue span { animation: none; }
+  #bg { transition: filter 1s ease; }
+}
+</style>
+
+<img id="bg" alt="" decoding="async">
+<div class="veil"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+
+<main id="stage" aria-label="Wedding invitation envelope">
+  <div class="heading" id="heading">
+    <div class="guest" id="guest" hidden></div>
+    <div class="eyebrow">You are invited to the wedding of</div>
+    <div class="names">Jigmet &amp; Rigzen</div>
+  </div>
+
+  <div class="env-wrap" id="envWrap">
+    <div class="env-shadow" id="envShadow"></div>
+    <div class="env-float" id="envFloat">
+      <div class="env" id="env">
+        <img class="layer env-back" id="envBack" data-asset="env_back" alt="" width="703" height="441">
+        <div class="pocket"><img class="letter-in" id="letterIn" data-asset="letter" alt="" width="1100" height="1515"></div>
+        <img class="layer env-front" id="envFront" data-asset="env_front" alt="" width="703" height="441">
+        <div class="flap" id="flap">
+          <div class="face front"><img data-asset="env_flap" alt="" width="703" height="342"></div>
+          <div class="face back"><img data-asset="env_flap" alt="" width="703" height="342"></div>
+        </div>
+        <button class="seal" id="seal" type="button" aria-label="Break the seal and open the invitation">
+          <img data-asset="seal" alt="" width="420" height="420">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <p class="hint" id="hint">Tap the seal to open</p>
+</main>
+
+<section id="card" aria-label="Wedding invitation">
+  <div class="card-inner">
+    <div class="letter-slot" id="letterSlot">
+      <div class="letter-tilt" id="letterTilt">
+        <img class="letter-big" id="letterBig" data-asset="letter" width="1100" height="1515"
+          alt="We invite you to celebrate the wedding of Jigmet Angmo, daughter of Sonam Angchok, Chumkhar, Nimoo and Mrs. Sonam Yangzes, Jora, Nimoo, with Rigzen Norbu, son of Tsetan Angchok, Serupa, Hemisshukpachan and Mrs. Sonam Angmo, Namdol, Temisgam. 5 November 2026. Dinner 6:00 PM onwards. Venue: Chumkhar House, Nimoo, Ladakh.">
+        <div class="sheen" id="sheen"></div>
+      </div>
+    </div>
+
+    <div class="scroll-cue" id="scrollCue">Details<span></span></div>
+
+    <div class="details" id="details">
+      <div class="names">Jigmet &amp; Rigzen</div>
+      <div class="sub">are getting married</div>
+      <div class="when">
+        <div class="day">Thursday</div>
+        <div class="big">5 November 2026</div>
+        <div class="time">Dinner from 6:00 PM onwards</div>
+      </div>
+      <hr class="rule">
+      <div class="countdown" id="countdown" role="timer" aria-live="off">
+        <div class="cell"><span class="num" data-u="d">00</span><span class="lbl">Days</span></div>
+        <div class="cell"><span class="num" data-u="h">00</span><span class="lbl">Hours</span></div>
+        <div class="cell"><span class="num" data-u="m">00</span><span class="lbl">Minutes</span></div>
+        <div class="cell"><span class="num" data-u="s">00</span><span class="lbl">Seconds</span></div>
+      </div>
+      <div class="countdown-note" id="countNote" hidden></div>
+      <hr class="rule">
+      <div class="venue">
+        <div class="lbl">Venue</div>
+        <div class="place">Chumkhar House, Nimoo, Ladakh</div>
+      </div>
+      <div class="actions">
+        <a class="action" id="calLink" target="_blank" rel="noopener" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          Save the date
+        </a>
+        <a class="action" target="_blank" rel="noopener" href="https://maps.apple/p/4y1yGsLFpJeIQ4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          Directions
+        </a>
+      </div>
+      <p class="closing">Your presence and blessings will make this occasion truly memorable.</p>
+      <button class="action ghost" id="replay" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg>
+        Open again
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>window.ASSETS = /*ASSETS*/null;</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const stage = $('#stage'), card = $('#card');
+  const envWrap = $('#envWrap'), envFloat = $('#envFloat'), flap = $('#flap'), seal = $('#seal');
+  const letterIn = $('#letterIn');
+  const letterBig = $('#letterBig'), details = $('#details'), sheen = $('#sheen');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let phase = 'intro', floatTween = null;
+
+  /* ---------- assets: embedded as data URIs in the artifact build, plain files in the hosted build ---------- */
+  const A = window.ASSETS;
+  document.querySelectorAll('img[data-asset]').forEach(img => { img.src = A[img.dataset.asset]; });
+  const rootStyle = document.documentElement.style;
+  rootStyle.setProperty('--poster-url', `url("${A.poster}")`);
+  rootStyle.setProperty('--letter-url', `url("${A.letter}")`);
+  const bg = $('#bg');
+  bg.src = A.bg;
+  rootStyle.setProperty('--poster-url', `url("${A.bg}")`);
+
+  /* ---------- personal greeting: ?to=Sonam or #Sonam_Dolma ---------- */
+  (function greet() {
+    let n = '';
+    try { n = new URLSearchParams(location.search).get('to') || ''; } catch (e) {}
+    if (!n && location.hash.length > 1) { try { n = decodeURIComponent(location.hash.slice(1)); } catch (e) {} }
+    n = n.replace(/[_+.~-]+/g, ' ').replace(/[^\p{L}\p{N} '&]/gu, '').trim().slice(0, 40);
+    if (n) { const g = $('#guest'); g.textContent = 'Dear ' + n + ','; g.hidden = false; }
+  })();
+
+  /* ---------- calendar link (6 PM IST = 12:30 UTC) ---------- */
+  const EVENT_UTC = Date.UTC(2026, 10, 5, 12, 30);
+  $('#calLink').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=' + encodeURIComponent('Wedding of Jigmet Angmo & Rigzen Norbu')
+    + '&dates=20261105T123000Z/20261105T173000Z'
+    + '&location=' + encodeURIComponent('Chumkhar House, Nimoo, Ladakh')
+    + '&details=' + encodeURIComponent('Dinner from 6:00 PM onwards. We look forward to celebrating this joyous occasion with you.');
+
+  /* ---------- countdown ---------- */
+  const nums = {}; document.querySelectorAll('#countdown .num').forEach(n => nums[n.dataset.u] = n);
+  function tick() {
+    let ms = EVENT_UTC - Date.now();
+    if (ms <= 0) {
+      $('#countdown').hidden = true;
+      const note = $('#countNote'); note.hidden = false;
+      note.textContent = ms > -6 * 3600e3 ? 'The celebration is happening now' : 'Thank you for celebrating with us';
+      return;
+    }
+    const s = Math.floor(ms / 1000);
+    const v = { d: Math.floor(s / 86400), h: Math.floor(s / 3600) % 24, m: Math.floor(s / 60) % 60, s: s % 60 };
+    for (const k in v) nums[k].textContent = String(v[k]).padStart(2, '0');
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- particles: gold dust, sparks, rose petals ---------- */
+  const cv = $('#fx'), ctx = cv.getContext('2d');
+  let W = 0, H = 0, DPR = 1;
+  const dust = [], petals = [];
+  let dustOn = false, rainOn = false, lastRain = 0;
+  function resize() {
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * DPR; cv.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  resize(); addEventListener('resize', resize);
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const PETAL_COLORS = ['#8e1f33', '#a82c45', '#c2566c', '#e8b4b8', '#f3d9d4', '#d9b877'];
+
+  function addDust(x, y, burst) {
+    dust.push({
+      x: x ?? rand(0, W), y: y ?? H + 10,
+      vx: burst ? rand(-1.2, 1.2) : rand(-.15, .15),
+      vy: burst ? rand(-1.6, .4) : rand(-.65, -.2),
+      r: rand(.6, burst ? 2.4 : 1.8), life: 1, decay: burst ? rand(.006, .012) : rand(.002, .005),
+      tw: rand(0, 6.28), burst: !!burst,
+      c: Math.random() < .25 ? '255,240,215' : '230,196,120'
+    });
+  }
+  function addPetal(x, y, burst) {
+    petals.push({
+      x: x ?? rand(-20, W + 20), y: y ?? rand(-60, -10),
+      vx: burst ? rand(-4.5, 4.5) : rand(-.4, .4),
+      vy: burst ? rand(-9, -3) : rand(.6, 1.4),
+      s: rand(6, 12), rot: rand(0, 6.28), vr: rand(-.05, .05),
+      flip: rand(0, 6.28), vf: rand(.03, .08), sway: rand(0, 6.28),
+      c: PETAL_COLORS[(Math.random() * PETAL_COLORS.length) | 0], burst: !!burst
+    });
+  }
+  function drawPetal(p) {
+    ctx.save();
+    ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.scale(1, Math.cos(p.flip) * .85 + .15);
+    const s = p.s;
+    ctx.beginPath();
+    ctx.moveTo(0, -s);
+    ctx.bezierCurveTo(s * .95, -s * .65, s * .7, s * .75, 0, s);
+    ctx.bezierCurveTo(-s * .7, s * .75, -s * .95, -s * .65, 0, -s);
+    ctx.fillStyle = p.c; ctx.globalAlpha = .9; ctx.fill();
+    ctx.globalAlpha = .25; ctx.strokeStyle = '#fff'; ctx.lineWidth = .6;
+    ctx.beginPath(); ctx.moveTo(0, -s * .7); ctx.quadraticCurveTo(s * .15, 0, 0, s * .7); ctx.stroke();
+    ctx.restore();
+  }
+  function frame(t) {
+    ctx.clearRect(0, 0, W, H);
+    if (dustOn && dust.length < (reduce ? 20 : 70) && Math.random() < .35) addDust();
+    if (rainOn && petals.length < (reduce ? 10 : 34) && t - lastRain > 380) { addPetal(); lastRain = t; }
+
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = dust.length - 1; i >= 0; i--) {
+      const d = dust[i];
+      d.x += d.vx; d.y += d.vy; d.tw += .08;
+      if (d.burst) { d.vy += .015; d.vx *= .985; }
+      d.life -= d.decay;
+      if (d.life <= 0 || d.y < -10) { dust.splice(i, 1); continue; }
+      const a = Math.max(0, d.life) * (.55 + .45 * Math.sin(d.tw));
+      const g = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r * 4);
+      g.addColorStop(0, `rgba(${d.c},${a})`); g.addColorStop(1, `rgba(${d.c},0)`);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(d.x, d.y, d.r * 4, 0, 6.283); ctx.fill();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    for (let i = petals.length - 1; i >= 0; i--) {
+      const p = petals[i];
+      p.sway += .02; p.flip += p.vf; p.rot += p.vr;
+      if (p.burst) { p.vy = Math.min(p.vy + .14, 2); p.vx *= .985; }
+      p.x += p.vx + Math.sin(p.sway) * .6; p.y += p.vy;
+      if (p.y > H + 30) { petals.splice(i, 1); continue; }
+      drawPetal(p);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+
+  /* ---------- 2. envelope arrives ---------- */
+  function showEnvelope() {
+    phase = 'envelope';
+    document.body.classList.add('dim');
+    dustOn = true;
+    enterEnvelope(.5);
+  }
+  function enterEnvelope(delay) {
+    gsap.set(stage, { autoAlpha: 1 });
+    const tl = gsap.timeline({ delay });
+    tl.from('#heading > *:not([hidden])', { autoAlpha: 0, y: 12, duration: 1.8, stagger: .3, ease: 'sine.out' })
+      .from(envWrap, { autoAlpha: 0, scale: .96, duration: 2.2, ease: 'sine.inOut' }, '-=1.4')
+      .from(seal, { autoAlpha: 0, scale: .92, duration: 1.6, ease: 'sine.inOut', clearProps: 'scale' }, '-=1.2')
+      .from('#hint', { autoAlpha: 0, duration: 1.4, ease: 'sine.inOut' }, '-=0.8')
+      .add(() => {
+        floatTween = gsap.to(envFloat, { y: -6, duration: 3.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+        phase = 'ready';
+      });
+  }
+
+  /* ---------- 3. break seal → open flap → pull letter ---------- */
+  function sparkAt(el, n) {
+    const r = el.getBoundingClientRect();
+    for (let i = 0; i < n; i++) addDust(r.left + r.width / 2 + rand(-r.width / 3, r.width / 3), r.top + r.height / 2 + rand(-r.height / 3, r.height / 3), true);
+  }
+  function openEnvelope() {
+    if (phase !== 'ready') return;
+    phase = 'opening';
+    if (floatTween) { floatTween.kill(); floatTween = null; }
+    seal.classList.add('broken');
+    const Wpx = envWrap.offsetWidth;
+
+    const tl = gsap.timeline();
+    tl.to(envFloat, { y: 0, duration: .8, ease: 'sine.inOut' }, 0)
+      .to(['#heading', '#hint'], { autoAlpha: 0, duration: 1.2, ease: 'sine.inOut' }, 0)
+      // seal: a soft glow, then it slowly melts away
+      .to(seal, { scale: 1.06, filter: 'brightness(1.15)', duration: .7, ease: 'sine.out' }, 0)
+      .add(() => sparkAt(seal, reduce ? 4 : 12), .5)
+      .to(seal, { autoAlpha: 0, scale: 1.18, filter: 'brightness(1.3) blur(6px)', duration: 1.8, ease: 'sine.inOut' }, .6)
+      // flap swings open
+      .to(flap, { rotationX: 180, duration: 2, ease: 'power1.inOut' }, 1.6)
+      .add(() => gsap.set(flap, { zIndex: 1 }), 2.6)
+      // letter slides up out of the pocket
+      .to(letterIn, { y: -Wpx * .55, duration: 2, ease: 'sine.inOut' }, 3.3)
+      // envelope sinks away while the letter stays put
+      .addLabel('sink', 5.2)
+      .to(envWrap, { y: Wpx * 1.05, duration: 2.2, ease: 'sine.inOut' }, 'sink')
+      .to(letterIn, { y: -Wpx * 1.6, duration: 2.2, ease: 'sine.inOut' }, 'sink')
+      .to(['#envBack', '#envFront', '#flap', '#envShadow'], { autoAlpha: 0, duration: 1.6, ease: 'sine.in' }, 'sink+=0.4')
+      .add(flyLetter, 'sink+=1.7');
+  }
+  seal.addEventListener('click', openEnvelope);
+
+  showEnvelope();
+
+  /* ---------- 4. letter flies to the reading position ---------- */
+  function flyLetter() {
+    const from = letterIn.getBoundingClientRect();
+    gsap.set(card, { autoAlpha: 1 });
+    card.scrollTop = 0;
+    gsap.set([details, '#scrollCue'], { opacity: 0, y: 30 });
+    const to = letterBig.getBoundingClientRect();
+
+    const fly = letterIn.cloneNode();
+    fly.removeAttribute('id'); fly.removeAttribute('style'); fly.className = 'letter-fly';
+    Object.assign(fly.style, { left: from.left + 'px', top: from.top + 'px', width: from.width + 'px' });
+    document.body.appendChild(fly);
+    gsap.set(letterIn, { autoAlpha: 0 });
+
+    const tl = gsap.timeline({ onComplete: revealCard.bind(null, fly) });
+    tl.to(fly, { left: to.left, top: to.top, width: to.width, duration: 2.2, ease: 'power2.inOut' })
+      .fromTo(fly, { rotation: 0 }, { keyframes: [{ rotation: -2, duration: 1 }, { rotation: 0, duration: 1.2 }], ease: 'sine.inOut' }, 0)
+      .add(() => {
+        const cx = innerWidth / 2, cy = innerHeight * .45;
+        for (let i = 0; i < (reduce ? 12 : 60); i++) addPetal(cx + rand(-40, 40), cy + rand(-30, 30), true);
+      }, 1.5);
+  }
+  function revealCard(fly) {
+    letterBig.style.visibility = 'visible';
+    fly.remove();
+    gsap.set(stage, { autoAlpha: 0 });
+    rainOn = true;
+    phase = 'card';
+    gsap.fromTo(sheen, { opacity: 1, backgroundPosition: '150% 0' }, { backgroundPosition: '-60% 0', duration: 3, ease: 'sine.inOut', onComplete: () => gsap.set(sheen, { opacity: 0 }) });
+    gsap.to('#scrollCue', { opacity: 1, y: 0, duration: 1.4, delay: .8, ease: 'sine.out' });
+    gsap.to(details, { opacity: 1, y: 0, duration: 1.6, delay: 1, ease: 'sine.out' });
+    gsap.from('#details > *', { opacity: 0, y: 14, duration: 1.2, stagger: .12, delay: 1.2, ease: 'sine.out' });
+  }
+
+  /* ---------- gentle tilt on desktop ---------- */
+  if (matchMedia('(pointer: fine)').matches && !reduce) {
+    const tilt = $('#letterTilt'), slot = $('#letterSlot');
+    slot.addEventListener('pointermove', (e) => {
+      const r = slot.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      tilt.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
+    });
+    slot.addEventListener('pointerleave', () => { tilt.style.transform = ''; });
+  }
+
+  /* ---------- open again ---------- */
+  $('#replay').addEventListener('click', () => {
+    if (phase !== 'card') return;
+    phase = 'envelope';
+    rainOn = false;
+    gsap.to(card, { autoAlpha: 0, duration: 1.2, ease: 'sine.inOut', onComplete: () => {
+      letterBig.style.visibility = 'hidden';
+      gsap.set([envWrap, envFloat, letterIn, flap, seal, '#heading', '#hint', '#heading > *', '#envBack', '#envFront', '#envShadow'], { clearProps: 'all' });
+      seal.classList.remove('broken');
+      enterEnvelope(0);
+    } });
+  });
+})();
+</script>
